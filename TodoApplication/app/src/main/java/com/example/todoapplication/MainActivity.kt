@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapplication.databinding.ActivityMainBinding
+import com.google.android.material.snackbar.Snackbar
 
 
 class MainActivity : AppCompatActivity() {
@@ -31,5 +32,12 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerTodos.adapter = adapter
         binding.recyclerTodos.layoutManager = LinearLayoutManager(this)
 
+        /* Add new Item code */
+        binding.newItemBtn.setOnClickListener { view ->
+            Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+                .setAction("Action", null)
+                .show()
+
+        }
     }
 }

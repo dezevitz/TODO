@@ -11,25 +11,20 @@
         android:id="@+id/recyclerTodos"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/enterTodo"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/enterTodo"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="New Todo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/BtnAddTodo"
-        app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/BtnAddTodo"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/newItemBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/add_item"
+        android:src="@drawable/ic_add_item"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
