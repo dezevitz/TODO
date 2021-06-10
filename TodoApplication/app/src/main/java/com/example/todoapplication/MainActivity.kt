@@ -1,10 +1,13 @@
 package com.example.todoapplication
 
 import android.os.Bundle
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapplication.databinding.ActivityMainBinding
-import com.google.android.material.snackbar.Snackbar
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,11 +36,19 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerTodos.layoutManager = LinearLayoutManager(this)
 
         /* Add new Item code */
-        binding.newItemBtn.setOnClickListener { view ->
-            Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .show()
+        val animation = AnimationUtils.loadAnimation(this, R.anim.circle_explotion_animation).apply {
+            duration = 700
+            interpolator = AccelerateDecelerateInterpolator()
+        }
 
+        binding.newItemBtn.setOnClickListener {
+            binding.apply {
+                newItemBtn.isVisible = false
+                circle.isVisible = true
+            }
+            binding.circle.startAnimation(animation){
+                binding.root.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_200))
+            }
         }
     }
 }
