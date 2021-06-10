@@ -1,5 +1,6 @@
 package com.example.todoapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AnimationUtils
@@ -49,6 +50,11 @@ class MainActivity : AppCompatActivity() {
             binding.circle.startAnimation(animation){
                 binding.root.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_200))
             }
+            openActivity2();
         }
+    }
+    fun openActivity2(){
+        val intent = Intent(this, Activity2AddTodo::class.java)
+        this.startActivity(intent)
     }
 }
