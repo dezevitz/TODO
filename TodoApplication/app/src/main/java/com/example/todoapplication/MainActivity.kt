@@ -1,10 +1,17 @@
 package com.example.todoapplication
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapplication.databinding.ActivityMainBinding
-import com.google.android.material.snackbar.Snackbar
 
 
 class MainActivity : AppCompatActivity() {
@@ -12,7 +19,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //val recyclerTodos: RecyclerView = findViewById(R.id.recyclerTodos)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -33,11 +39,27 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerTodos.layoutManager = LinearLayoutManager(this)
 
         /* Add new Item code */
-        binding.newItemBtn.setOnClickListener { view ->
-            Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .show()
+        val animation = AnimationUtils.loadAnimation(this, R.anim.circle_explotion_animation).apply {
+            duration = 700
+            interpolator = AccelerateDecelerateInterpolator()
+        }
 
+        binding.newItemBtn.setOnClickListener {
+            binding.apply {
+                newItemBtn.isVisible = false
+                circle.isVisible = true
+            }
+            binding.circle.startAnimation(animation){}
+            animation.setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationStart(animation: Animation?) {}
+                override fun onAnimationEnd(animation: Animation?) {
+                    binding.root.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.teal_200))
+                    binding.recyclerTodos.isVisible = false
+                    intent = Intent(this@MainActivity, Activity2AddTodo::class.java)
+                    Handler(Looper.getMainLooper()).postDelayed(Runnable { startActivity(intent) }, 2000)
+                }
+                override fun onAnimationRepeat(animation: Animation?) {}
+            })
         }
     }
 }
