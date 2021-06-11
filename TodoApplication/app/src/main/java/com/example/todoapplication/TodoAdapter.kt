@@ -3,6 +3,7 @@ package com.example.todoapplication
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -11,6 +12,7 @@ class TodoAdapter (
         ): RecyclerView.Adapter<TodoAdapter.TodoViewHolder>(){
     inner class TodoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val taskDesc: TextView = itemView.findViewById((R.id.tvTitle))
+        val doneCB: CheckBox = itemView.findViewById(R.id.cbDone)
     }
 
 
@@ -23,6 +25,7 @@ class TodoAdapter (
     * */
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
         holder.taskDesc.text = todos[position].title
+        holder.doneCB.isChecked = todos[position].isChecked
     }
 
     override fun getItemCount(): Int {

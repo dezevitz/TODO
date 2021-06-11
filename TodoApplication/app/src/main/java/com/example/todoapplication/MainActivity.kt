@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapplication.databinding.ActivityMainBinding
@@ -16,7 +15,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //val recyclerTodos: RecyclerView = findViewById(R.id.recyclerTodos)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -38,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         /* Add new Item code */
         val animation = AnimationUtils.loadAnimation(this, R.anim.circle_explotion_animation).apply {
-            duration = 700
+            duration = 1500
             interpolator = AccelerateDecelerateInterpolator()
         }
 
@@ -47,13 +45,11 @@ class MainActivity : AppCompatActivity() {
                 newItemBtn.isVisible = false
                 circle.isVisible = true
             }
-            binding.circle.startAnimation(animation){
-                binding.root.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_200))
-            }
-            openActivity2();
+            binding.circle.startAnimation(animation){}
+            openActivity2()
         }
     }
-    fun openActivity2(){
+    private fun openActivity2(){
         val intent = Intent(this, Activity2AddTodo::class.java)
         this.startActivity(intent)
     }
