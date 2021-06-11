@@ -2,9 +2,13 @@ package com.example.todoapplication
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapplication.databinding.ActivityMainBinding
@@ -36,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         /* Add new Item code */
         val animation = AnimationUtils.loadAnimation(this, R.anim.circle_explotion_animation).apply {
-            duration = 1500
+            duration = 700
             interpolator = AccelerateDecelerateInterpolator()
         }
 
@@ -46,11 +50,16 @@ class MainActivity : AppCompatActivity() {
                 circle.isVisible = true
             }
             binding.circle.startAnimation(animation){}
-            openActivity2()
+            animation.setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationStart(animation: Animation?) {}
+                override fun onAnimationEnd(animation: Animation?) {
+                    binding.root.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.teal_200))
+                    binding.recyclerTodos.isVisible = false
+                    intent = Intent(this@MainActivity, Activity2AddTodo::class.java)
+                    Handler(Looper.getMainLooper()).postDelayed(Runnable { startActivity(intent) }, 2000)
+                }
+                override fun onAnimationRepeat(animation: Animation?) {}
+            })
         }
-    }
-    private fun openActivity2(){
-        val intent = Intent(this, Activity2AddTodo::class.java)
-        this.startActivity(intent)
     }
 }

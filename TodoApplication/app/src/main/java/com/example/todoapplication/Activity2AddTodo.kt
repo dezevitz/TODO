@@ -21,6 +21,7 @@ class Activity2AddTodo : AppCompatActivity() {
     }
     fun openMainActivity(){
         val intent = Intent(this, MainActivity::class.java)
+        /*intent.putExtra(binding.editText.text)*/
         this.startActivity(intent)
     }
 }
