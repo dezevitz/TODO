@@ -49,10 +49,13 @@ class MainActivity : AppCompatActivity() {
 
         /* Add new Item code */
         val taskTitle = intent?.extras?.getString(TASKTITLE).toString()
-        val newestTodo = Todo(taskTitle, false)
-        todoList.add(newestTodo)
-        adapter.notifyDataSetChanged()
-        adapter.notifyItemInserted(todoList.size - 1)
+        if (taskTitle != "null") {
+            val newestTodo = Todo(taskTitle, false)
+            todoList.add(newestTodo)
+            adapter.notifyDataSetChanged()
+            adapter.notifyItemInserted(todoList.size - 1)
+        }
+
 
         val animation = AnimationUtils.loadAnimation(this, R.anim.circle_explotion_animation).apply {
             duration = 700
