@@ -13,9 +13,18 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapplication.databinding.ActivityMainBinding
 
+/*
+TODO Organize code
+TODO currently replaces last todo when new todo added
+TODO initially item null on list, set code to only display when new item not null
+ */
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    companion object {
+        const val TASKTITLE = "title"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -39,6 +48,15 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerTodos.layoutManager = LinearLayoutManager(this)
 
         /* Add new Item code */
+        val taskTitle = intent?.extras?.getString(TASKTITLE).toString()
+        if (taskTitle != "null") {
+            val newestTodo = Todo(taskTitle, false)
+            todoList.add(newestTodo)
+            adapter.notifyDataSetChanged()
+            adapter.notifyItemInserted(todoList.size - 1)
+        }
+
+
         val animation = AnimationUtils.loadAnimation(this, R.anim.circle_explotion_animation).apply {
             duration = 700
             interpolator = AccelerateDecelerateInterpolator()
