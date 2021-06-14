@@ -20,11 +20,9 @@ TODO closing animation when add is clicked
  */
 
 /*
-Finished TODOS
-TODO when plus sign is pressed, animation occurs, and the new activity displays
-TODO when ADD button pressed, data is added to the list
-TODO checkboxes were added to the recycler view
-TODO initially item null on list, set code to only display when new item not null
+ACTIVITY 1
+This activity is the landing screen for the app. On this screen the user can see all of their todos
+on a recycler view. There is a FAB in the corner for adding items
  */
 
 class MainActivity : AppCompatActivity() {
@@ -34,12 +32,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        // General setup of binding and content
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        // Sample list
         var todoList = mutableListOf(
             Todo("Implement Checkboxes", false),
             Todo("Filter by Date", false),
@@ -51,11 +51,13 @@ class MainActivity : AppCompatActivity() {
             Todo("Create page for checked", false),
             Todo("Pray to the penny lords", false)
         )
+
+        // Recycler view setup
         val adapter = TodoAdapter(todoList)
         binding.recyclerTodos.adapter = adapter
         binding.recyclerTodos.layoutManager = LinearLayoutManager(this)
 
-        /* Add new Item code */
+        // Adds a new item based on input in Activity 2
         val taskTitle = intent?.extras?.getString(TASKTITLE).toString()
         if (taskTitle != "null") {
             val newestTodo = Todo(taskTitle, false)
@@ -64,17 +66,19 @@ class MainActivity : AppCompatActivity() {
             adapter.notifyItemInserted(todoList.size - 1)
         }
 
-
+        // Animation between Activity 1 and 2
         val animation = AnimationUtils.loadAnimation(this, R.anim.circle_explotion_animation).apply {
             duration = 700
             interpolator = AccelerateDecelerateInterpolator()
         }
 
+        // FAB button listener/transition to Activity 2
         binding.newItemBtn.setOnClickListener {
             binding.apply {
                 newItemBtn.isVisible = false
                 circle.isVisible = true
             }
+            // Between Activity Animation
             binding.circle.startAnimation(animation){}
             animation.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationStart(animation: Animation?) {}

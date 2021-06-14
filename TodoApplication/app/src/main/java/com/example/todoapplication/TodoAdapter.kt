@@ -15,19 +15,25 @@ class TodoAdapter (
         val doneCB: CheckBox = itemView.findViewById(R.id.cbDone)
     }
 
-
+    /**
+     * Creates the view holder
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_todo, parent, false)
         return TodoViewHolder(view)
     }
-    /*
-    * Holder used to access the view holder
-    * */
+
+    /**
+     * Updates the information in the recycler view when the items move off screen
+     */
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
         holder.taskDesc.text = todos[position].title
         holder.doneCB.isChecked = todos[position].isChecked
     }
 
+    /**
+     * Gets the size of the recycler view
+     */
     override fun getItemCount(): Int {
         return todos.size
     }
