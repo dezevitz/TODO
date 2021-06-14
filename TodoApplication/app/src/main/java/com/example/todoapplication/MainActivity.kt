@@ -15,7 +15,15 @@ import com.example.todoapplication.databinding.ActivityMainBinding
 
 /*
 TODO Organize code
-TODO currently replaces last todo when new todo added
+TODO currently replaces last todo when new todo added (newest item is forgotten)
+TODO closing animation when add is clicked
+ */
+
+/*
+Finished TODOS
+TODO when plus sign is pressed, animation occurs, and the new activity displays
+TODO when ADD button pressed, data is added to the list
+TODO checkboxes were added to the recycler view
 TODO initially item null on list, set code to only display when new item not null
  */
 
@@ -74,7 +82,9 @@ class MainActivity : AppCompatActivity() {
                     binding.root.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.teal_200))
                     binding.recyclerTodos.isVisible = false
                     intent = Intent(this@MainActivity, Activity2AddTodo::class.java)
-                    Handler(Looper.getMainLooper()).postDelayed(Runnable { startActivity(intent) }, 2000)
+                    Handler(Looper.getMainLooper()).postDelayed(Runnable {
+                        startActivity(intent)
+                        overridePendingTransition(0,0)}, 2000)
                 }
                 override fun onAnimationRepeat(animation: Animation?) {}
             })
