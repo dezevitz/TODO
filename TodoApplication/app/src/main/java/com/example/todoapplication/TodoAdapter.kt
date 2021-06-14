@@ -1,13 +1,16 @@
 package com.example.todoapplication
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.todoapplication.model.Todo
 
 class TodoAdapter (
+    private val context: Context,
     var todos: List<Todo>
         ): RecyclerView.Adapter<TodoAdapter.TodoViewHolder>(){
     inner class TodoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -27,7 +30,7 @@ class TodoAdapter (
      * Updates the information in the recycler view when the items move off screen
      */
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
-        holder.taskDesc.text = todos[position].title
+        holder.taskDesc.text = context.resources.getString(todos[position].title)
         holder.doneCB.isChecked = todos[position].isChecked
     }
 

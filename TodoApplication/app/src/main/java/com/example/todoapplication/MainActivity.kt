@@ -11,10 +11,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.todoapplication.data.Datasource
 import com.example.todoapplication.databinding.ActivityMainBinding
 
 /*
-TODO Organize code
 TODO currently replaces last todo when new todo added (newest item is forgotten)
 TODO closing animation when add is clicked
  */
@@ -40,28 +40,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Sample list
-        var todoList = mutableListOf(
-            Todo("Implement Checkboxes", false),
-            Todo("Filter by Date", false),
-            Todo("Eat Breakfast", false),
-            Todo("Goat Yoga", false),
-            Todo("Call mom", false),
-            Todo("Call dad", false),
-            Todo("Filter out checked", false),
-            Todo("Create page for checked", false),
-            Todo("Pray to the penny lords", false)
-        )
+        var todoList = Datasource().loadTodos()
 
         // Recycler view setup
-        val adapter = TodoAdapter(todoList)
+        val adapter = TodoAdapter(this, todoList)
         binding.recyclerTodos.adapter = adapter
         binding.recyclerTodos.layoutManager = LinearLayoutManager(this)
 
         // Adds a new item based on input in Activity 2
         val taskTitle = intent?.extras?.getString(TASKTITLE).toString()
         if (taskTitle != "null") {
-            val newestTodo = Todo(taskTitle, false)
-            todoList.add(newestTodo)
+            //val newestTodo = Todo(taskTitle, false)
+            //todoList.add(newestTodo)
             adapter.notifyDataSetChanged()
             adapter.notifyItemInserted(todoList.size - 1)
         }
