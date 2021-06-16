@@ -11,12 +11,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.todoapplication.data.Datasource
 import com.example.todoapplication.databinding.ActivityMainBinding
+import com.example.todoapplication.model.Todo
 
 /*
-TODO Organize code
 TODO currently replaces last todo when new todo added (newest item is forgotten)
 TODO closing animation when add is clicked
+TODO readd the ability to add a new item
  */
 
 /*
@@ -27,6 +29,7 @@ on a recycler view. There is a FAB in the corner for adding items
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
     companion object {
         const val TASKTITLE = "title"
     }
@@ -38,33 +41,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val sharedPreferences = getSharedPreferences("SP_INFO", MODE_PRIVATE)
 
         // Sample list
-        var todoList = mutableListOf(
-            Todo("Implement Checkboxes", false),
-            Todo("Filter by Date", false),
-            Todo("Eat Breakfast", false),
-            Todo("Goat Yoga", false),
-            Todo("Call mom", false),
-            Todo("Call dad", false),
-            Todo("Filter out checked", false),
-            Todo("Create page for checked", false),
-            Todo("Pray to the penny lords", false)
-        )
+        var todoList = Datasource().loadTodos()
 
         // Recycler view setup
-        val adapter = TodoAdapter(todoList)
+        val adapter = TodoAdapter(this, todoList)
         binding.recyclerTodos.adapter = adapter
         binding.recyclerTodos.layoutManager = LinearLayoutManager(this)
 
-        // Adds a new item based on input in Activity 2
-        val taskTitle = intent?.extras?.getString(TASKTITLE).toString()
-        if (taskTitle != "null") {
-            val newestTodo = Todo(taskTitle, false)
-            todoList.add(newestTodo)
-            adapter.notifyDataSetChanged()
-            adapter.notifyItemInserted(todoList.size - 1)
-        }
+        val title = sharedPreferences.getString("TITLE", "Hello")
+        binding.textView.text = title
+        val newestTodo = Todo(title.toString(), false)
+        todoList.add(newestTodo)
+        adapter.notifyDataSetChanged()
+        adapter.notifyItemInserted(todoList.size - 1)
+
 
         // Animation between Activity 1 and 2
         val animation = AnimationUtils.loadAnimation(this, R.anim.circle_explotion_animation).apply {
