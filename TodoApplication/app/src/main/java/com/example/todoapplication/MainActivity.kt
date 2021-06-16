@@ -51,18 +51,6 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerTodos.adapter = adapter
         binding.recyclerTodos.layoutManager = LinearLayoutManager(this)
 
-        /*
-        // Adds a new item based on input in Activity 2
-        val taskTitle = intent?.extras?.getString(TASKTITLE).toString()
-        if (taskTitle != "null") {
-            //val newestTodo = Todo(title, false)
-            //todoList.add(newestTodo)
-            adapter.notifyDataSetChanged()
-            adapter.notifyItemInserted(todoList.size - 1)
-        }
-         */
-
-
         val title = sharedPreferences.getString("TITLE", "Hello")
         binding.textView.text = title
         val newestTodo = Todo(title.toString(), false)
