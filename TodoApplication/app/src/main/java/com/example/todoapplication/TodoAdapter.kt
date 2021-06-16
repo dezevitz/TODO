@@ -30,7 +30,7 @@ class TodoAdapter (
      * Updates the information in the recycler view when the items move off screen
      */
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
-        holder.taskDesc.text = context.resources.getString(todos[position].title)
+        holder.taskDesc.text = todos[position].title
         holder.doneCB.isChecked = todos[position].isChecked
     }
 

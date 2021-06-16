@@ -1,6 +1,5 @@
 package com.example.todoapplication
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -14,6 +13,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapplication.data.Datasource
 import com.example.todoapplication.databinding.ActivityMainBinding
+import com.example.todoapplication.model.Todo
 
 /*
 TODO currently replaces last todo when new todo added (newest item is forgotten)
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val sharedPreferences = getSharedPreferences("SP_INFO", Context.MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences("SP_INFO", MODE_PRIVATE)
 
         // Sample list
         var todoList = Datasource().loadTodos()
@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerTodos.adapter = adapter
         binding.recyclerTodos.layoutManager = LinearLayoutManager(this)
 
+        /*
         // Adds a new item based on input in Activity 2
         val taskTitle = intent?.extras?.getString(TASKTITLE).toString()
         if (taskTitle != "null") {
@@ -59,10 +60,16 @@ class MainActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
             adapter.notifyItemInserted(todoList.size - 1)
         }
+         */
 
 
-        val title = sharedPreferences.getString("TITLE", "hee")
+        val title = sharedPreferences.getString("TITLE", "Hello")
         binding.textView.text = title
+        val newestTodo = Todo(title.toString(), false)
+        todoList.add(newestTodo)
+        adapter.notifyDataSetChanged()
+        adapter.notifyItemInserted(todoList.size - 1)
+
 
         // Animation between Activity 1 and 2
         val animation = AnimationUtils.loadAnimation(this, R.anim.circle_explotion_animation).apply {
