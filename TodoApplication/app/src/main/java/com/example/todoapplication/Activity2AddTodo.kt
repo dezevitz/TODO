@@ -1,5 +1,6 @@
 package com.example.todoapplication
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -20,10 +21,14 @@ class Activity2AddTodo : AppCompatActivity() {
         setContentView(R.layout.activity_activity2_add_todo)
         binding = ActivityActivity2AddTodoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val sharedPreferences = getSharedPreferences("SP_INFO", Context.MODE_PRIVATE)
 
         // When add button is pressed
         binding.addButton.setOnClickListener {
             binding.addButton.isVisible = false
+            val editor = sharedPreferences.edit()
+            editor.putString("TITLE", binding.editText.text.toString())
+            editor.apply()
             openMainActivity()
         }
     }

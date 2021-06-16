@@ -1,5 +1,6 @@
 package com.example.todoapplication
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -17,6 +18,7 @@ import com.example.todoapplication.databinding.ActivityMainBinding
 /*
 TODO currently replaces last todo when new todo added (newest item is forgotten)
 TODO closing animation when add is clicked
+TODO readd the ability to add a new item
  */
 
 /*
@@ -27,6 +29,7 @@ on a recycler view. There is a FAB in the corner for adding items
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
     companion object {
         const val TASKTITLE = "title"
     }
@@ -38,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val sharedPreferences = getSharedPreferences("SP_INFO", Context.MODE_PRIVATE)
 
         // Sample list
         var todoList = Datasource().loadTodos()
@@ -50,11 +54,15 @@ class MainActivity : AppCompatActivity() {
         // Adds a new item based on input in Activity 2
         val taskTitle = intent?.extras?.getString(TASKTITLE).toString()
         if (taskTitle != "null") {
-            //val newestTodo = Todo(taskTitle, false)
+            //val newestTodo = Todo(title, false)
             //todoList.add(newestTodo)
             adapter.notifyDataSetChanged()
             adapter.notifyItemInserted(todoList.size - 1)
         }
+
+
+        val title = sharedPreferences.getString("TITLE", "hee")
+        binding.textView.text = title
 
         // Animation between Activity 1 and 2
         val animation = AnimationUtils.loadAnimation(this, R.anim.circle_explotion_animation).apply {
