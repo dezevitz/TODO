@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("SP_INFO", MODE_PRIVATE)
 
         // Sample list
-        var todoStrings = sharedPreferences.getString("TODOITEMS", "Empty")
+        var todoStrings = sharedPreferences.getString("TODOITEMS", "")
         var todoList = todoStrings?.split(",")?.toMutableList()
 
         // Recycler view setup
