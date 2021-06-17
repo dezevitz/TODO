@@ -31,6 +31,14 @@ class Activity2AddTodo : AppCompatActivity() {
             editor.apply()
             openMainActivity()
         }
+        // Clear Tasks
+        binding.ClearTasks.setOnClickListener {
+            val editor = sharedPreferences.edit()
+            editor.putString("TODOITEMS", "")
+            editor.apply()
+            openMainActivity()
+        }
+
     }
 
     /**
