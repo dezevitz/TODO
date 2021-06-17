@@ -27,7 +27,7 @@ class Activity2AddTodo : AppCompatActivity() {
         binding.addButton.setOnClickListener {
             binding.addButton.isVisible = false
             val editor = sharedPreferences.edit()
-            editor.putString("TITLE", binding.editText.text.toString())
+            editor.putString("TODOITEMS", binding.editText.text.toString() + "," + sharedPreferences.getString("TODOITEMS", "Empty"))
             editor.apply()
             openMainActivity()
         }

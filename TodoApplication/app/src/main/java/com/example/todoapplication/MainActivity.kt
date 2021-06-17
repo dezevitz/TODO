@@ -11,9 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.todoapplication.data.Datasource
 import com.example.todoapplication.databinding.ActivityMainBinding
-import com.example.todoapplication.model.Todo
 
 /*
 TODO currently replaces last todo when new todo added (newest item is forgotten)
@@ -44,20 +42,13 @@ class MainActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("SP_INFO", MODE_PRIVATE)
 
         // Sample list
-        var todoList = Datasource().loadTodos()
+        var todoStrings = sharedPreferences.getString("TODOITEMS", "Empty")
+        var todoList = todoStrings?.split(",")?.toMutableList()
 
         // Recycler view setup
-        val adapter = TodoAdapter(this, todoList)
+        val adapter = todoList?.let { TodoAdapter(this, it) }
         binding.recyclerTodos.adapter = adapter
         binding.recyclerTodos.layoutManager = LinearLayoutManager(this)
-
-        val title = sharedPreferences.getString("TITLE", "Hello")
-        binding.textView.text = title
-        val newestTodo = Todo(title.toString(), false)
-        todoList.add(newestTodo)
-        adapter.notifyDataSetChanged()
-        adapter.notifyItemInserted(todoList.size - 1)
-
 
         // Animation between Activity 1 and 2
         val animation = AnimationUtils.loadAnimation(this, R.anim.circle_explotion_animation).apply {
